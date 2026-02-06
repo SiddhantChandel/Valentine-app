@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Be My Valentine ❤️</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            height: 100vh;
+            margin: 0;
+            background: #ffebf0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* ---------- MAIN STACK ---------- */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 22px;
+            text-align: center;
+        }
+
+        /* ---------- IMAGE ---------- */
+        .love-pic {
+            width: 190px;
+            height: 190px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 6px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 14px 35px rgba(214, 51, 108, 0.35);
+            background: white;
+        }
+
+        /* ---------- QUESTION ---------- */
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #b11226;
+            margin: 0;
+            letter-spacing: 1.5px;
+        }
+
+        /* ---------- BUTTON BOX ---------- */
+        .button-box {
+            display: flex;
+            gap: 40px;
+            padding: 22px 38px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.65);
+            box-shadow: 0 12px 28px rgba(214, 51, 108, 0.25);
+            backdrop-filter: blur(6px);
+        }
+
+        button {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.45rem;
+            font-weight: 700;
+            padding: 16px 32px;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+            min-width: 150px;
+            min-height: 60px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        #yes {
+            background: linear-gradient(135deg, #ff4d6d, #ff758f);
+            color: white;
+            box-shadow: 0 6px 16px rgba(255, 77, 109, 0.4);
+            transition: transform 0.15s ease;
+        }
+
+        #yes:hover {
+            transform: scale(1.07);
+        }
+
+        #no {
+            background: linear-gradient(135deg, #adb5bd, #ced4da);
+            color: #343a40;
+            box-shadow: 0 5px 14px rgba(0, 0, 0, 0.18);
+            cursor: not-allowed;
+            transition: left 0.18s ease-out, top 0.18s ease-out;
+        }
+
+        /* ---------- LOVE SCREEN ---------- */
+        #loveScreen {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(to bottom, #ffdde1, #ee9ca7);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 999;
+            text-align: center;
+        }
+
+        #loveScreen .message {
+            font-family: 'Great Vibes', cursive;
+            font-size: 4rem;
+            color: #b11226;
+            margin-bottom: 20px;
+        }
+
+        .bouquet {
+            font-size: 3.4rem;
+            animation: bouquetFloat 2.5s infinite alternate ease-in-out;
+        }
+
+        @keyframes bouquetFloat {
+            from { transform: translateY(0) scale(1); }
+            to { transform: translateY(-18px) scale(1.03); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- MAIN QUESTION STACK -->
+    <div class="main-container" id="questionArea">
+        <img src="{{ url_for('static', filename='pic.jpeg') }}" alt="My Love" class="love-pic">
+
+        <h1>Will you be my Valentine? 💖</h1>
+
+        <div class="button-box">
+            <button id="yes" onclick="yesClicked()">YES ❤️</button>
+            <button id="no">NO 🙅‍♂️</button>
+        </div>
+    </div>
+
+    <!-- LOVE SCREEN -->
+    <div id="loveScreen">
+        <div class="message">Thank You, My Love ❤️</div>
+        <div class="bouquet">💐 🌹 🌸 🌷 🌺 🌹 💐</div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById("no");
+        const buttonBox = document.querySelector(".button-box");
+
+        noBtn.addEventListener("mouseenter", () => {
+
+            // Detach NO from layout once
+            if (noBtn.parentElement === buttonBox) {
+                const rect = noBtn.getBoundingClientRect();
+                buttonBox.removeChild(noBtn);
+                document.body.appendChild(noBtn);
+
+                noBtn.style.position = "fixed";
+                noBtn.style.left = rect.left + "px";
+                noBtn.style.top = rect.top + "px";
+            }
+
+            const btnW = noBtn.offsetWidth;
+            const btnH = noBtn.offsetHeight;
+            const padding = 100;
+
+            const maxX = window.innerWidth - btnW - padding;
+            const maxY = window.innerHeight - btnH - padding;
+
+            const x = Math.random() * (maxX - padding) + padding;
+            const y = Math.random() * (maxY - padding) + padding;
+
+            noBtn.style.left = x + "px";
+            noBtn.style.top = y + "px";
+        });
+
+        function yesClicked() {
+            document.getElementById("questionArea").style.display = "none";
+            document.getElementById("loveScreen").style.display = "flex";
+        }
+    </script>
+
+</body>
+</html>
